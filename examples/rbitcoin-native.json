@@ -1,0 +1,52 @@
+{
+  "kind": "rbitcoin-vector-check",
+  "spec_revision": "30c6d3fc807236a36b890a48c2d296e1149f971f",
+  "core_fixture_baseline": "f0de87f040621468b956f01f526a43a010310501",
+  "rbitcoin_revision": "1ec1f626da3dd0f9d17f38881023d4bbdb2bf9da",
+  "platform": "Darwin arm64",
+  "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+  "adapter": "bundled",
+  "adapter_sha256": "ab0103ca0b8db8547a1264e9b4ab26ca01c991b5452355b2f93b8018c89ea6c6",
+  "runner_sha256": "a959afb35c62a4ed3af900c9dcb48cb93511db59ee99f7c5fe5231e8294bc03b",
+  "adapter_info": {
+    "name": "rbitcoin native script",
+    "version": "1ec1f626da3dd0f9d17f38881023d4bbdb2bf9da",
+    "spec_version": "protocol-v1",
+    "ops": [
+      "script_verify"
+    ]
+  },
+  "not_run": [
+    "tx-valid",
+    "tx-invalid",
+    "sighash",
+    "bip341",
+    "bip340",
+    "custom",
+    "corpus",
+    "headers-live",
+    "interop"
+  ],
+  "status": "pass",
+  "suites": {
+    "script-tests": {
+      "checks": 79168,
+      "passed": 79168,
+      "failed": 0,
+      "diagnostic_differences": 24768,
+      "diagnostics_checked": 79168,
+      "unsupported": 0
+    },
+    "script-assets": {
+      "checks": 239168,
+      "passed": 239168,
+      "failed": 0,
+      "diagnostic_differences": 41152,
+      "diagnostics_checked": 239168,
+      "unsupported": 0
+    }
+  },
+  "failure_samples": [],
+  "rows_omitted_by_upstream_rule": [],
+  "upstream_exit": 0
+}

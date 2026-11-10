@@ -1,0 +1,16 @@
+{
+  "platform": "macOS arm64",
+  "baseline": {
+    "tag": "v32.1",
+    "commit": "f0de87f040621468b956f01f526a43a010310501",
+    "archive": "https://bitcoincore.org/bin/bitcoin-core-32.1/bitcoin-32.1-arm64-apple-darwin.tar.gz",
+    "archive_sha256": "cd3dcdacb4ff861e862b2d7df4786ecef66472e2468dca1673a70dd761e064e7"
+  },
+  "historical_candidate": {
+    "tag": "v32.0rc4",
+    "commit": "310071f8d0c5c9bd2f66328d042f1a05c7fd1fb8",
+    "archive": "https://bitcoincore.org/bin/bitcoin-core-32.0/test.rc4/bitcoin-32.0rc4-arm64-apple-darwin.tar.gz",
+    "archive_sha256": "f82e34120ef292bda0f38ccebf99de37d298a06d192adbef4a178c3041e56765"
+  },
+  "checksum_signer_verified": "152812300785C96444D3334D17565732E08E5E41"
+}

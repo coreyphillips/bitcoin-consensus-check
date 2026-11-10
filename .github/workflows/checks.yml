@@ -1,0 +1,48 @@
+name: Conformance checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      SPEC_REV: 30c6d3fc807236a36b890a48c2d296e1149f971f
+      RBITCOIN_REV: 1ec1f626da3dd0f9d17f38881023d4bbdb2bf9da
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Check report scoring and release discovery
+        run: |
+          python3 -B -m unittest discover -v
+          python3 -B -m unittest discover -s tools -v
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: coreyphillips/bitcoin-consensus-spec
+          ref: ${{ env.SPEC_REV }}
+          path: spec-checkout
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: rbitcoin-org/rbitcoin
+          ref: ${{ env.RBITCOIN_REV }}
+          path: rbitcoin-checkout
+          persist-credentials: false
+      - name: Run rbitcoin against frozen script vectors
+        run: |
+          python3 rbitcoin_check.py --spec spec-checkout --rbitcoin rbitcoin-checkout \
+            --report reports/rbitcoin.json
+      - name: Save rbitcoin report
+        if: always() && hashFiles('reports/rbitcoin.json') != ''
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rbitcoin-script-report
+          path: reports/rbitcoin.json

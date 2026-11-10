@@ -1,0 +1,105 @@
+{
+  "kind": "rbitcoin-vector-check",
+  "spec_revision": "30c6d3fc807236a36b890a48c2d296e1149f971f",
+  "core_fixture_baseline": "f0de87f040621468b956f01f526a43a010310501",
+  "rbitcoin_revision": "1ec1f626da3dd0f9d17f38881023d4bbdb2bf9da",
+  "platform": "Darwin arm64",
+  "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+  "adapter": "external",
+  "adapter_sha256": "0dfeb7cf44036f3a1966d2e4eebd5d621fd811ad83d0d9fac07feab59b5e1c14",
+  "runner_sha256": "c537fc52bbd065ad29763f32063a5840945eb5ea00b6fb68d8caaad08a98c210",
+  "adapter_info": {
+    "name": "rbitcoin (rbitcoin-consensus, in-process)",
+    "version": "1ec1f626d",
+    "spec_version": "v32.1-1",
+    "ops": [
+      "info",
+      "script_verify",
+      "tx_check",
+      "sighash_legacy",
+      "sighash_taproot",
+      "taproot_commitment_verify",
+      "schnorr_verify"
+    ]
+  },
+  "not_run": [
+    "corpus",
+    "headers-live",
+    "interop"
+  ],
+  "status": "fail",
+  "suites": {
+    "script-tests": {
+      "checks": 79168,
+      "passed": 79168,
+      "failed": 0,
+      "diagnostic_differences": 24768,
+      "diagnostics_checked": 79168,
+      "unsupported": 0
+    },
+    "tx-valid": {
+      "checks": 11385,
+      "passed": 11385,
+      "failed": 0,
+      "diagnostic_differences": 192,
+      "diagnostics_checked": 11264,
+      "unsupported": 0
+    },
+    "tx-invalid": {
+      "checks": 7197,
+      "passed": 7197,
+      "failed": 0,
+      "diagnostic_differences": 2304,
+      "diagnostics_checked": 7113,
+      "unsupported": 0
+    },
+    "sighash": {
+      "checks": 1000,
+      "passed": 1000,
+      "failed": 0,
+      "diagnostic_differences": 0,
+      "diagnostics_checked": 0,
+      "unsupported": 0
+    },
+    "bip341": {
+      "checks": 26,
+      "passed": 26,
+      "failed": 0,
+      "diagnostic_differences": 0,
+      "diagnostics_checked": 7,
+      "unsupported": 0
+    },
+    "bip340": {
+      "checks": 19,
+      "passed": 15,
+      "failed": 4,
+      "diagnostic_differences": 0,
+      "diagnostics_checked": 0,
+      "unsupported": 0
+    },
+    "script-assets": {
+      "checks": 239168,
+      "passed": 239168,
+      "failed": 0,
+      "diagnostic_differences": 41152,
+      "diagnostics_checked": 239168,
+      "unsupported": 0
+    },
+    "custom": {
+      "checks": 21,
+      "passed": 21,
+      "failed": 0,
+      "diagnostic_differences": 2,
+      "diagnostics_checked": 20,
+      "unsupported": 0
+    }
+  },
+  "failure_samples": [
+    "FAIL     [bip340] row 15 (message of size 0 (added 2022-12)): internal: rbitcoin verifies BIP340 signatures only over 32-byte sighashes; no API for a 0-byte message",
+    "FAIL     [bip340] row 16 (message of size 1 (added 2022-12)): internal: rbitcoin verifies BIP340 signatures only over 32-byte sighashes; no API for a 1-byte message",
+    "FAIL     [bip340] row 17 (message of size 17 (added 2022-12)): internal: rbitcoin verifies BIP340 signatures only over 32-byte sighashes; no API for a 17-byte message",
+    "FAIL     [bip340] row 18 (message of size 100 (added 2022-12)): internal: rbitcoin verifies BIP340 signatures only over 32-byte sighashes; no API for a 100-byte message"
+  ],
+  "rows_omitted_by_upstream_rule": [],
+  "upstream_exit": 1
+}

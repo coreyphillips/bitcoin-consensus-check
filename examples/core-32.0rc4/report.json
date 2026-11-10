@@ -1,0 +1,613 @@
+{
+  "format": 1,
+  "status": "agreement",
+  "spec_commit": "30c6d3fc807236a36b890a48c2d296e1149f971f",
+  "baseline_core_commit": "f0de87f040621468b956f01f526a43a010310501",
+  "started_utc": "2026-11-10T04:48:00.709859+00:00",
+  "platform": "Darwin 27.0.0 arm64",
+  "available": 20,
+  "selected": [
+    "feature_bip68_sequence.node0.jsonl.gz",
+    "feature_bip68_sequence.node1.jsonl.gz",
+    "feature_block.node0.jsonl.gz",
+    "feature_block_reorg.node0.jsonl.gz",
+    "feature_cltv.node0.jsonl.gz",
+    "feature_csv_activation.node0.jsonl.gz",
+    "feature_dersig.node0.jsonl.gz",
+    "feature_nulldummy.node0.jsonl.gz",
+    "feature_segwit.node0.jsonl.gz",
+    "feature_segwit.node1.jsonl.gz",
+    "feature_segwit.node2.jsonl.gz",
+    "feature_spec_pitfalls.node0.jsonl.gz",
+    "feature_spec_pitfalls.node1.jsonl.gz",
+    "feature_spec_pitfalls.node2.jsonl.gz",
+    "feature_taproot.node0.jsonl.gz",
+    "mining_basic.node0.jsonl.gz",
+    "mining_basic.node1.jsonl.gz",
+    "p2p_invalid_block.node0.jsonl.gz",
+    "p2p_segwit.node0.jsonl.gz",
+    "p2p_segwit.node1.jsonl.gz"
+  ],
+  "baseline": {
+    "version": "v32.1.0",
+    "sha256": "58f9e3b5b8cf0cecd268cc6bf02993f3244e1a93fe8d67949ced6b52c2fdd9fb"
+  },
+  "candidate": {
+    "version": "v32.0.0rc4",
+    "sha256": "906f5a6afc869e12b1d41d33715efc29d42cf84cd8a5d233505190608a44b458"
+  },
+  "rows": {
+    "feature_bip68_sequence.node0.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 60,
+        "checkpoint_counts": {
+          "tip": 31,
+          "utxo": 29
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 31
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 60,
+        "checkpoint_counts": {
+          "tip": 31,
+          "utxo": 29
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 31
+        }
+      },
+      "decisions_compared": 446,
+      "decision_differences": []
+    },
+    "feature_bip68_sequence.node1.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 26,
+        "checkpoint_counts": {
+          "tip": 13,
+          "utxo": 13
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 13
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 26,
+        "checkpoint_counts": {
+          "tip": 13,
+          "utxo": 13
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 13
+        }
+      },
+      "decisions_compared": 445,
+      "decision_differences": []
+    },
+    "feature_block.node0.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 168,
+        "checkpoint_counts": {
+          "tip": 128,
+          "utxo": 40
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 104
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 168,
+        "checkpoint_counts": {
+          "tip": 128,
+          "utxo": 40
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 104
+        }
+      },
+      "decisions_compared": 346,
+      "decision_differences": []
+    },
+    "feature_block_reorg.node0.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 176,
+        "checkpoint_counts": {
+          "tip": 133,
+          "utxo": 43
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 104
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 176,
+        "checkpoint_counts": {
+          "tip": 133,
+          "utxo": 43
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 104
+        }
+      },
+      "decisions_compared": 2529,
+      "decision_differences": []
+    },
+    "feature_cltv.node0.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 16,
+        "checkpoint_counts": {
+          "tip": 11,
+          "utxo": 5
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 11
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 16,
+        "checkpoint_counts": {
+          "tip": 11,
+          "utxo": 5
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 11
+        }
+      },
+      "decisions_compared": 117,
+      "decision_differences": []
+    },
+    "feature_csv_activation.node0.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 172,
+        "checkpoint_counts": {
+          "tip": 139,
+          "utxo": 33
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 82
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 172,
+        "checkpoint_counts": {
+          "tip": 139,
+          "utxo": 33
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 82
+        }
+      },
+      "decisions_compared": 679,
+      "decision_differences": []
+    },
+    "feature_dersig.node0.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 10,
+        "checkpoint_counts": {
+          "tip": 6,
+          "utxo": 4
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 6
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 10,
+        "checkpoint_counts": {
+          "tip": 6,
+          "utxo": 4
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 6
+        }
+      },
+      "decisions_compared": 104,
+      "decision_differences": []
+    },
+    "feature_nulldummy.node0.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 14,
+        "checkpoint_counts": {
+          "tip": 8,
+          "utxo": 6
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 8
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 14,
+        "checkpoint_counts": {
+          "tip": 8,
+          "utxo": 6
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 8
+        }
+      },
+      "decisions_compared": 107,
+      "decision_differences": []
+    },
+    "feature_segwit.node0.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 24,
+        "checkpoint_counts": {
+          "tip": 12,
+          "utxo": 12
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 12
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 24,
+        "checkpoint_counts": {
+          "tip": 12,
+          "utxo": 12
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 12
+        }
+      },
+      "decisions_compared": 171,
+      "decision_differences": []
+    },
+    "feature_segwit.node1.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 24,
+        "checkpoint_counts": {
+          "tip": 12,
+          "utxo": 12
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 12
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 24,
+        "checkpoint_counts": {
+          "tip": 12,
+          "utxo": 12
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 12
+        }
+      },
+      "decisions_compared": 171,
+      "decision_differences": []
+    },
+    "feature_segwit.node2.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 24,
+        "checkpoint_counts": {
+          "tip": 12,
+          "utxo": 12
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 12
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 24,
+        "checkpoint_counts": {
+          "tip": 12,
+          "utxo": 12
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 12
+        }
+      },
+      "decisions_compared": 171,
+      "decision_differences": []
+    },
+    "feature_spec_pitfalls.node0.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 55,
+        "checkpoint_counts": {
+          "tip": 37,
+          "utxo": 18
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 37
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 55,
+        "checkpoint_counts": {
+          "tip": 37,
+          "utxo": 18
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 37
+        }
+      },
+      "decisions_compared": 235,
+      "decision_differences": []
+    },
+    "feature_spec_pitfalls.node1.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 11,
+        "checkpoint_counts": {
+          "tip": 7,
+          "utxo": 4
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 7
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 11,
+        "checkpoint_counts": {
+          "tip": 7,
+          "utxo": 4
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 7
+        }
+      },
+      "decisions_compared": 15,
+      "decision_differences": []
+    },
+    "feature_spec_pitfalls.node2.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 292,
+        "checkpoint_counts": {
+          "tip": 147,
+          "utxo": 145
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 147
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 292,
+        "checkpoint_counts": {
+          "tip": 147,
+          "utxo": 145
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 147
+        }
+      },
+      "decisions_compared": 147,
+      "decision_differences": []
+    },
+    "feature_taproot.node0.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 5511,
+        "checkpoint_counts": {
+          "tip": 4044,
+          "utxo": 1467
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 108
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 5511,
+        "checkpoint_counts": {
+          "tip": 4044,
+          "utxo": 1467
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 108
+        }
+      },
+      "decisions_compared": 4142,
+      "decision_differences": []
+    },
+    "mining_basic.node0.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 703,
+        "checkpoint_counts": {
+          "tip": 375,
+          "utxo": 328
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 375
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 703,
+        "checkpoint_counts": {
+          "tip": 375,
+          "utxo": 328
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 375
+        }
+      },
+      "decisions_compared": 598,
+      "decision_differences": []
+    },
+    "mining_basic.node1.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 6,
+        "checkpoint_counts": {
+          "tip": 3,
+          "utxo": 3
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 4,
+          "tip_matched": 1,
+          "utxo_matched": 1
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 6,
+        "checkpoint_counts": {
+          "tip": 3,
+          "utxo": 3
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 4,
+          "tip_matched": 1,
+          "utxo_matched": 1
+        }
+      },
+      "decisions_compared": 667,
+      "decision_differences": []
+    },
+    "p2p_invalid_block.node0.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 15,
+        "checkpoint_counts": {
+          "tip": 10,
+          "utxo": 5
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 10
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 15,
+        "checkpoint_counts": {
+          "tip": 10,
+          "utxo": 5
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 10
+        }
+      },
+      "decisions_compared": 115,
+      "decision_differences": []
+    },
+    "p2p_segwit.node0.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 173,
+        "checkpoint_counts": {
+          "tip": 106,
+          "utxo": 67
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 106
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 173,
+        "checkpoint_counts": {
+          "tip": 106,
+          "utxo": 67
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 106
+        }
+      },
+      "decisions_compared": 312,
+      "decision_differences": []
+    },
+    "p2p_segwit.node1.jsonl.gz": {
+      "baseline": {
+        "errors": [],
+        "checks": 82,
+        "checkpoint_counts": {
+          "tip": 41,
+          "utxo": 41
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 41
+        }
+      },
+      "candidate": {
+        "errors": [],
+        "checks": 82,
+        "checkpoint_counts": {
+          "tip": 41,
+          "utxo": 41
+        },
+        "differences": [],
+        "diagnostics": {
+          "chain_tips_matched": 41
+        }
+      },
+      "decisions_compared": 284,
+      "decision_differences": []
+    }
+  },
+  "totals": {
+    "decisions": 11801,
+    "decision_differences": 0,
+    "baseline_tip": 5275,
+    "baseline_utxo": 2287,
+    "candidate_tip": 5275,
+    "candidate_utxo": 2287
+  }
+}

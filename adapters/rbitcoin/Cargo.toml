@@ -1,0 +1,13 @@
+[workspace]
+
+[package]
+name = "rbitcoin-script-adapter"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+bitcoin = "0.32"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rbitcoin-consensus = { path = "../rbitcoin/crates/rbitcoin-consensus", default-features = false }

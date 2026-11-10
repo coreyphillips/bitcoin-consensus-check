@@ -1,0 +1,200 @@
+name: Bitcoin Core release comparison
+
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+    inputs:
+      candidate:
+        description: Official Core release or RC tag (for example v32.0rc4)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: core-release-${{ github.event_name }}-${{ inputs.candidate || 'discovery' }}
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      matrix: ${{ steps.tags.outputs.matrix }}
+      pending: ${{ steps.tags.outputs.pending }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Resolve official signed Core tags
+        id: tags
+        env:
+          REQUESTED_TAG: ${{ inputs.candidate }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch ]]; then
+            args=(--candidate "$REQUESTED_TAG")
+          else
+            args=(--skip-reports-for "$GITHUB_REPOSITORY")
+          fi
+          python3 tools/release_tags.py --revision "$GITHUB_SHA" "${args[@]}" > pending.json
+          jq . pending.json
+          echo "matrix=$(jq -c . pending.json)" >> "$GITHUB_OUTPUT"
+          echo "pending=$(jq '.include | length > 0' pending.json)" >> "$GITHUB_OUTPUT"
+
+  compare:
+    needs: discover
+    if: needs.discover.outputs.pending == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix: ${{ fromJSON(needs.discover.outputs.matrix) }}
+    name: Compare ${{ matrix.tag }} with v32.1
+    env:
+      SPEC_COMMIT: 30c6d3fc807236a36b890a48c2d296e1149f971f
+      HORNET_COMMIT: 28dd9a6d66c2221a6a5c11cef937c47346435cf0
+      CANDIDATE_COMMIT: ${{ matrix.commit }}
+      CANDIDATE_TAG_OBJECT: ${{ matrix.object }}
+      CANDIDATE_TAG: ${{ matrix.tag }}
+      BASE_ARCHIVE: bitcoin-32.1-x86_64-linux-gnu.tar.gz
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Check out pinned specification and corpus
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: coreyphillips/bitcoin-consensus-spec
+          ref: ${{ env.SPEC_COMMIT }}
+          path: spec-checkout
+          persist-credentials: false
+      - name: Check out the commit named by the verified Core tag
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: bitcoin/bitcoin
+          ref: ${{ matrix.commit }}
+          path: core-src
+          persist-credentials: false
+      - name: Verify checkouts and download the frozen baseline
+        run: |
+          set -euo pipefail
+          test "$(git -C spec-checkout rev-parse HEAD)" = "$SPEC_COMMIT"
+          test "$(git -C core-src rev-parse HEAD)" = "$CANDIDATE_COMMIT"
+          cd "$RUNNER_TEMP"
+          sum=$(jq -er --arg name "$BASE_ARCHIVE" '.core.release_tarballs[$name]' \
+            "$GITHUB_WORKSPACE/spec-checkout/conformance/recorder/pins.json")
+          curl --proto '=https' --proto-redir '=https' --fail --silent --show-error \
+            --location --retry 3 --output "$BASE_ARCHIVE" \
+            "https://bitcoincore.org/bin/bitcoin-core-32.1/$BASE_ARCHIVE"
+          echo "$sum  $BASE_ARCHIVE" | sha256sum --check --strict
+          tar -xzf "$BASE_ARCHIVE"
+          ./bitcoin-32.1/bin/bitcoind -version
+      - name: Build candidate bitcoind
+        id: build
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libboost-dev ninja-build
+          cmake -S core-src -B "$RUNNER_TEMP/core-build" -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF -DBUILD_GUI=OFF \
+            -DENABLE_WALLET=OFF -DENABLE_IPC=OFF
+          cmake --build "$RUNNER_TEMP/core-build" --target bitcoind --parallel 2
+          "$RUNNER_TEMP/core-build/bin/bitcoind" -version
+      - name: Replay frozen cases
+        id: compare
+        run: |
+          set -euo pipefail
+          result=0
+          python3 compare.py --spec spec-checkout \
+            --baseline "$RUNNER_TEMP/bitcoin-32.1/bin/bitcoind" \
+            --candidate "$RUNNER_TEMP/core-build/bin/bitcoind" \
+            --output reports --jobs 2 || result=$?
+          if [[ -s reports/report.json && -s reports/report.md ]]; then
+            case "$result:$(jq -r .status reports/report.json)" in
+              "0:agreement"|"0:control matched"|"1:differences"|"2:inconclusive") ;;
+              *) result=2 ;;
+            esac
+            cat reports/report.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            result=2
+          fi
+          echo "result=$result" >> "$GITHUB_OUTPUT"
+          mkdir -p reports
+          jq -n --arg runner "$GITHUB_SHA" --arg spec "$SPEC_COMMIT" --arg hornet "$HORNET_COMMIT" \
+            --arg archive "$BASE_ARCHIVE" --arg archive_sha256 "$(sha256sum "$RUNNER_TEMP/$BASE_ARCHIVE" | cut -d' ' -f1)" \
+            --arg candidate "$CANDIDATE_TAG" --arg object "$CANDIDATE_TAG_OBJECT" --arg commit "$CANDIDATE_COMMIT" \
+            '{runner_commit:$runner,spec_commit:$spec,hornet_commit:$hornet,baseline_release_archive:$archive,
+              baseline_archive_sha256:$archive_sha256,candidate_tag:$candidate,
+              candidate_tag_object:$object,candidate_commit:$commit}' > reports/workflow-inputs.json
+      - name: Check out Hornet block arithmetic
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: tobysharp/hornet
+          ref: ${{ env.HORNET_COMMIT }}
+          path: hornet-checkout
+          persist-credentials: false
+      - name: Compare genesis arithmetic with Hornet
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        id: hornet
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          result=2
+          if [[ "$(git -C hornet-checkout rev-parse HEAD)" == "$HORNET_COMMIT" ]] &&
+              sudo apt-get install -y --no-install-recommends clang-19 g++-14; then
+            result=0
+            python3 hornet_check.py --hornet hornet-checkout --cxx clang++-19 \
+              --baseline "$RUNNER_TEMP/bitcoin-32.1/bin/bitcoind" \
+              --candidate "$RUNNER_TEMP/core-build/bin/bitcoind" \
+              --report reports/hornet.json || result=$?
+          fi
+          if [[ ! -s reports/hornet.json ]]; then
+            echo '{"status":"inconclusive","error":"Hornet setup or execution failed before a report was written"}' > reports/hornet.json
+            result=2
+          fi
+          status=$(jq -r .status reports/hornet.json) || status=inconclusive
+          case "$result:$status" in
+            "0:agreement"|"1:differences"|"2:inconclusive") ;;
+            *) result=2; status=inconclusive ;;
+          esac
+          echo "Hornet genesis arithmetic: $status" >> "$GITHUB_STEP_SUMMARY"
+          echo "result=$result" >> "$GITHUB_OUTPUT"
+      - name: Combine comparison outcomes
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        id: overall
+        env:
+          CORPUS_RESULT: ${{ steps.compare.outputs.result }}
+          HORNET_RESULT: ${{ steps.hornet.outputs.result }}
+        run: |
+          case "$CORPUS_RESULT:$HORNET_RESULT" in
+            0:0) result=0 ;;
+            0:1|1:0|1:1) result=1 ;;
+            *) result=2 ;;
+          esac
+          echo "result=$result" >> "$GITHUB_OUTPUT"
+      - name: Save comparison reports
+        if: ${{ !cancelled() && steps.overall.outcome == 'success' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: ${{ (steps.overall.outputs.result == '0' || steps.overall.outputs.result == '1') && matrix.artifact || format('inconclusive-{0}-{1}-{2}', matrix.tag, github.run_id, github.run_attempt) }}
+          path: |
+            reports/report.json
+            reports/report.md
+            reports/hornet.json
+            reports/workflow-inputs.json
+          if-no-files-found: error
+          overwrite: true
+          retention-days: 30
+      - name: Set comparison status
+        env:
+          RESULT: ${{ steps.overall.outputs.result }}
+        run: exit "$RESULT"
